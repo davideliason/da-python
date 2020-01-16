@@ -474,6 +474,9 @@
    "metadata": {},
    "outputs": [],
    "source": [
+    "# from sklearn.preprocessing import StandardScaler\n",
+    "# scale the data\n",
+    "\n",
     "from sklearn.preprocessing import StandardScaler\n",
     "scaler = StandardScaler()\n",
     "scaler.fit(X_train)\n",
