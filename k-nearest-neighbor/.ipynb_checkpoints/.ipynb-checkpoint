@@ -702,7 +702,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 62,
+   "execution_count": 88,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -712,7 +712,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 63,
+   "execution_count": 89,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -721,7 +721,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 64,
+   "execution_count": 90,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -744,7 +744,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 65,
+   "execution_count": 91,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -755,7 +755,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 66,
+   "execution_count": 92,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -764,35 +764,45 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 67,
+   "execution_count": 93,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "RMSE value for k =  1 is:  806.0253907635637\n",
-      "RMSE value for k =  2 is:  761.7947609510713\n",
-      "RMSE value for k =  3 is:  770.4425235530327\n",
-      "RMSE value for k =  4 is:  783.9079517815338\n",
-      "RMSE value for k =  5 is:  836.905502763338\n",
-      "RMSE value for k =  6 is:  848.8873479184493\n",
-      "RMSE value for k =  7 is:  880.2197723565362\n",
-      "RMSE value for k =  8 is:  924.5640490961545\n",
-      "RMSE value for k =  9 is:  969.0672056893997\n",
-      "RMSE value for k =  10 is:  1003.3328429193153\n"
+      "RMSE value for k=  1 is: 1503.8843837154948\n",
+      "RMSE value for k=  2 is: 1298.9287058904006\n",
+      "RMSE value for k=  3 is: 1287.5035601652803\n",
+      "RMSE value for k=  4 is: 1361.791537904511\n",
+      "RMSE value for k=  5 is: 1385.3442890367241\n",
+      "RMSE value for k=  6 is: 1382.3968469082317\n",
+      "RMSE value for k=  7 is: 1386.3292619840424\n",
+      "RMSE value for k=  8 is: 1402.7277000309175\n",
+      "RMSE value for k=  9 is: 1422.5235520776826\n",
+      "RMSE value for k=  10 is: 1454.7380535254447\n",
+      "RMSE value for k=  11 is: 1425.623444917226\n",
+      "RMSE value for k=  12 is: 1426.35991618816\n",
+      "RMSE value for k=  13 is: 1437.341113471392\n",
+      "RMSE value for k=  14 is: 1449.2256081588034\n",
+      "RMSE value for k=  15 is: 1460.903839945635\n",
+      "RMSE value for k=  16 is: 1484.3758839635525\n",
+      "RMSE value for k=  17 is: 1507.137653014031\n",
+      "RMSE value for k=  18 is: 1524.187951251522\n",
+      "RMSE value for k=  19 is: 1534.5170857194894\n",
+      "RMSE value for k=  20 is: 1557.2839942285914\n"
      ]
     }
    ],
    "source": [
-    "for K in range(10):\n",
-    "    K=K+1\n",
-    "    model=neighbors.KNeighborsRegressor(n_neighbors = K)\n",
-    "    model.fit(X_train_knn, y_train) # fit the model\n",
-    "    pred = model.predict(X_test_knn) # make predictions on test set\n",
-    "    error = np.sqrt(mean_squared_error(y_test, pred)) # calculate rmse\n",
-    "    rmse_val.append(error) # store rmse values\n",
-    "    print('RMSE value for k = ' , K , 'is: ', error)"
+    "for K in range(20):\n",
+    "    K = K+1\n",
+    "    model = neighbors.KNeighborsRegressor(n_neighbors = K)\n",
+    "    model.fit(X_train_knn, y_train)  #f it the model\n",
+    "    pred=model.predict(X_test_knn) # make prediction on test set\n",
+    "    error = np.sqrt(mean_squared_error(y_test,pred)) # comparing to the true y values and calculate rmse\n",
+    "    rmse_val.append(error) # add the RMSE value to the end\n",
+    "    print('RMSE value for k= ' , K , 'is:', error)"
    ]
   },
   {
@@ -804,49 +814,32 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 68,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "lm_train_data = pd.merge(X_train, y_train, how = 'left', left_index = True, right_index = True)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 70,
+   "execution_count": 94,
    "metadata": {},
    "outputs": [
     {
-     "ename": "PatsyError",
-     "evalue": "Error evaluating factor: NameError: name 'Price' is not defined\n    Price ~ Age+KM+HP+MetColor+Automatic+CC\n    ^^^^^",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36mcall_and_wrap_exc\u001b[0;34m(msg, origin, f, *args, **kwargs)\u001b[0m\n\u001b[1;32m     35\u001b[0m     \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 36\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     37\u001b[0m     \u001b[0;32mexcept\u001b[0m \u001b[0mException\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0me\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36meval\u001b[0;34m(self, expr, source_name, inner_namespace)\u001b[0m\n\u001b[1;32m    165\u001b[0m         return eval(code, {}, VarLookupDict([inner_namespace]\n\u001b[0;32m--> 166\u001b[0;31m                                             + self._namespaces))\n\u001b[0m\u001b[1;32m    167\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m<string>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n",
-      "\u001b[0;31mNameError\u001b[0m: name 'Price' is not defined",
-      "\nThe above exception was the direct cause of the following exception:\n",
-      "\u001b[0;31mPatsyError\u001b[0m                                Traceback (most recent call last)",
-      "\u001b[0;32m<ipython-input-70-6a801d61119c>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mlm2\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0msm\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mols\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mformula\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m\"Price ~ Age+KM+HP+MetColor+Automatic+CC\"\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlm_train_data\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/statsmodels/base/model.py\u001b[0m in \u001b[0;36mfrom_formula\u001b[0;34m(cls, formula, data, subset, drop_cols, *args, **kwargs)\u001b[0m\n\u001b[1;32m    157\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    158\u001b[0m         tmp = handle_formula_data(data, None, formula, depth=eval_env,\n\u001b[0;32m--> 159\u001b[0;31m                                   missing=missing)\n\u001b[0m\u001b[1;32m    160\u001b[0m         \u001b[0;34m(\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mendog\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mexog\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmissing_idx\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdesign_info\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtmp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    161\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/statsmodels/formula/formulatools.py\u001b[0m in \u001b[0;36mhandle_formula_data\u001b[0;34m(Y, X, formula, depth, missing)\u001b[0m\n\u001b[1;32m     63\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mdata_util\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_is_using_pandas\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mY\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     64\u001b[0m             result = dmatrices(formula, Y, depth, return_type='dataframe',\n\u001b[0;32m---> 65\u001b[0;31m                                NA_action=na_action)\n\u001b[0m\u001b[1;32m     66\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     67\u001b[0m             result = dmatrices(formula, Y, depth, return_type='dataframe',\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36mdmatrices\u001b[0;34m(formula_like, data, eval_env, NA_action, return_type)\u001b[0m\n\u001b[1;32m    308\u001b[0m     \u001b[0meval_env\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mEvalEnvironment\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcapture\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0meval_env\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mreference\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    309\u001b[0m     (lhs, rhs) = _do_highlevel_design(formula_like, data, eval_env,\n\u001b[0;32m--> 310\u001b[0;31m                                       NA_action, return_type)\n\u001b[0m\u001b[1;32m    311\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mlhs\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    312\u001b[0m         \u001b[0;32mraise\u001b[0m \u001b[0mPatsyError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"model is missing required outcome variables\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36m_do_highlevel_design\u001b[0;34m(formula_like, data, eval_env, NA_action, return_type)\u001b[0m\n\u001b[1;32m    163\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0miter\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mdata\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    164\u001b[0m     design_infos = _try_incr_builders(formula_like, data_iter_maker, eval_env,\n\u001b[0;32m--> 165\u001b[0;31m                                       NA_action)\n\u001b[0m\u001b[1;32m    166\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mdesign_infos\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    167\u001b[0m         return build_design_matrices(design_infos, data,\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36m_try_incr_builders\u001b[0;34m(formula_like, data_iter_maker, eval_env, NA_action)\u001b[0m\n\u001b[1;32m     68\u001b[0m                                       \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     69\u001b[0m                                       \u001b[0meval_env\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 70\u001b[0;31m                                       NA_action)\n\u001b[0m\u001b[1;32m     71\u001b[0m     \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     72\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/build.py\u001b[0m in \u001b[0;36mdesign_matrix_builders\u001b[0;34m(termlists, data_iter_maker, eval_env, NA_action)\u001b[0m\n\u001b[1;32m    694\u001b[0m                                                    \u001b[0mfactor_states\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    695\u001b[0m                                                    \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 696\u001b[0;31m                                                    NA_action)\n\u001b[0m\u001b[1;32m    697\u001b[0m     \u001b[0;31m# Now we need the factor infos, which encapsulate the knowledge of\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    698\u001b[0m     \u001b[0;31m# how to turn any given factor into a chunk of data:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/build.py\u001b[0m in \u001b[0;36m_examine_factor_types\u001b[0;34m(factors, factor_states, data_iter_maker, NA_action)\u001b[0m\n\u001b[1;32m    441\u001b[0m     \u001b[0;32mfor\u001b[0m \u001b[0mdata\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    442\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mlist\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mexamine_needed\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 443\u001b[0;31m             \u001b[0mvalue\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mfactor\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0meval\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfactor_states\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mfactor\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    444\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mcat_sniffers\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0mguess_categorical\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mvalue\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    445\u001b[0m                 \u001b[0;32mif\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mcat_sniffers\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36meval\u001b[0;34m(self, memorize_state, data)\u001b[0m\n\u001b[1;32m    564\u001b[0m         return self._eval(memorize_state[\"eval_code\"],\n\u001b[1;32m    565\u001b[0m                           \u001b[0mmemorize_state\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 566\u001b[0;31m                           data)\n\u001b[0m\u001b[1;32m    567\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    568\u001b[0m     \u001b[0m__getstate__\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mno_pickling\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36m_eval\u001b[0;34m(self, code, memorize_state, data)\u001b[0m\n\u001b[1;32m    549\u001b[0m                                  \u001b[0mmemorize_state\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"eval_env\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0meval\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    550\u001b[0m                                  \u001b[0mcode\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 551\u001b[0;31m                                  inner_namespace=inner_namespace)\n\u001b[0m\u001b[1;32m    552\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    553\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mmemorize_chunk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstate\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwhich_pass\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36mcall_and_wrap_exc\u001b[0;34m(msg, origin, f, *args, **kwargs)\u001b[0m\n\u001b[1;32m     41\u001b[0m                                  origin)\n\u001b[1;32m     42\u001b[0m             \u001b[0;31m# Use 'exec' to hide this syntax from the Python 2 parser:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 43\u001b[0;31m             \u001b[0mexec\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"raise new_exc from e\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     44\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     45\u001b[0m             \u001b[0;31m# In python 2, we just let the original exception escape -- better\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n",
-      "\u001b[0;31mPatsyError\u001b[0m: Error evaluating factor: NameError: name 'Price' is not defined\n    Price ~ Age+KM+HP+MetColor+Automatic+CC\n    ^^^^^"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1570.0758785626715\n"
      ]
     }
    ],
    "source": [
-    "lm2 = sm.ols(formula=\"Price ~ Age+KM+HP+MetColor+Automatic+CC\", data=lm_train_data).fit()"
+    "lm_train_data = pd.merge(X_train,y_train,how = 'left',left_index = True, right_index = True)\n",
+    "lm2 = sm.ols(formula=\"Price ~ Age+KM+HP+MetColor+Automatic+CC\", data=lm_train_data).fit()\n",
+    "ypred = lm2.predict(X_test)\n",
+    "\n",
+    "# calc rmse\n",
+    "print(np.sqrt(mean_squared_error(y_test,ypred)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Conclusion\n",
+    "We used the same KNN train set to estimate LR model, and then to calculate RMSE. We see LR RMSE is 1570 while KNN ranged from 1287 to 1557 so KNN was superior model"
    ]
   },
   {
