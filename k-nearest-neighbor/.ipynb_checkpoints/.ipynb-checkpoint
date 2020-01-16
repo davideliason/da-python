@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 71,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -13,7 +13,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 72,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -23,7 +23,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 73,
    "metadata": {},
    "outputs": [
     {
@@ -181,7 +181,7 @@
        "max       1.000000  2000.000000     5.000000  1615.00000  "
       ]
      },
-     "execution_count": 3,
+     "execution_count": 73,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -192,7 +192,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 74,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -202,7 +202,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 75,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -211,7 +211,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 76,
    "metadata": {},
    "outputs": [
     {
@@ -224,7 +224,7 @@
       "Model:                            OLS   Adj. R-squared:                  0.822\n",
       "Method:                 Least Squares   F-statistic:                     1104.\n",
       "Date:                Thu, 16 Jan 2020   Prob (F-statistic):               0.00\n",
-      "Time:                        14:32:30   Log-Likelihood:                -12565.\n",
+      "Time:                        15:37:50   Log-Likelihood:                -12565.\n",
       "No. Observations:                1436   AIC:                         2.514e+04\n",
       "Df Residuals:                    1429   BIC:                         2.518e+04\n",
       "Df Model:                           6                                         \n",
@@ -258,30 +258,227 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "log transformation as a possible improvement in normality¶\n",
+    "We tried to use a log transformation to improve the normality of independent variables, but from plotting the histograms before&after, it looks like the original (no log transformation) yields a more normal-like shape"
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 77,
    "metadata": {},
    "outputs": [
     {
      "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Price</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>KM</th>\n",
+       "      <th>FuelType</th>\n",
+       "      <th>HP</th>\n",
+       "      <th>MetColor</th>\n",
+       "      <th>Automatic</th>\n",
+       "      <th>CC</th>\n",
+       "      <th>Doors</th>\n",
+       "      <th>Weight</th>\n",
+       "      <th>logKM</th>\n",
+       "      <th>logCC</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>13500</td>\n",
+       "      <td>23</td>\n",
+       "      <td>46986</td>\n",
+       "      <td>Diesel</td>\n",
+       "      <td>90</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1165</td>\n",
+       "      <td>10.757605</td>\n",
+       "      <td>7.600902</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>13750</td>\n",
+       "      <td>23</td>\n",
+       "      <td>72937</td>\n",
+       "      <td>Diesel</td>\n",
+       "      <td>90</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1165</td>\n",
+       "      <td>11.197351</td>\n",
+       "      <td>7.600902</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>13950</td>\n",
+       "      <td>24</td>\n",
+       "      <td>41711</td>\n",
+       "      <td>Diesel</td>\n",
+       "      <td>90</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1165</td>\n",
+       "      <td>10.638520</td>\n",
+       "      <td>7.600902</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>14950</td>\n",
+       "      <td>26</td>\n",
+       "      <td>48000</td>\n",
+       "      <td>Diesel</td>\n",
+       "      <td>90</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1165</td>\n",
+       "      <td>10.778956</td>\n",
+       "      <td>7.600902</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>13750</td>\n",
+       "      <td>30</td>\n",
+       "      <td>38500</td>\n",
+       "      <td>Diesel</td>\n",
+       "      <td>90</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1170</td>\n",
+       "      <td>10.558414</td>\n",
+       "      <td>7.600902</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
       "text/plain": [
-       "Index(['Price', 'Age', 'KM', 'FuelType', 'HP', 'MetColor', 'Automatic', 'CC',\n",
-       "       'Doors', 'Weight'],\n",
-       "      dtype='object')"
+       "   Price  Age     KM FuelType  HP  MetColor  Automatic    CC  Doors  Weight  \\\n",
+       "0  13500   23  46986   Diesel  90         1          0  2000      3    1165   \n",
+       "1  13750   23  72937   Diesel  90         1          0  2000      3    1165   \n",
+       "2  13950   24  41711   Diesel  90         1          0  2000      3    1165   \n",
+       "3  14950   26  48000   Diesel  90         0          0  2000      3    1165   \n",
+       "4  13750   30  38500   Diesel  90         0          0  2000      3    1170   \n",
+       "\n",
+       "       logKM     logCC  \n",
+       "0  10.757605  7.600902  \n",
+       "1  11.197351  7.600902  \n",
+       "2  10.638520  7.600902  \n",
+       "3  10.778956  7.600902  \n",
+       "4  10.558414  7.600902  "
       ]
      },
-     "execution_count": 7,
+     "execution_count": 77,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "ToyotaCorolla.columns"
+    "ToyotaCorolla['logKM'] = np.log(ToyotaCorolla['KM'] )\n",
+    "ToyotaCorolla['logCC'] = np.log(ToyotaCorolla['CC'] )\n",
+    "ToyotaCorolla.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 80,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x1a1a1e6198>"
+      ]
+     },
+     "execution_count": 80,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "ToyotaCorolla['logKM'].hist()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x1a1a16e160>"
+      ]
+     },
+     "execution_count": 79,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "iVBORw0KGgoAAAANSUhEUgAAAYMAAAD4CAYAAAAO9oqkAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4xLjAsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+17YcXAAAWBklEQVR4nO3df4xd5ZnY8e8TfsViqG0CO3Jtq0Mat1oWax08IkRUqztkm4CpaiJBZWoFO6GabUukrNZbYXb/WLZbVNLWocomZTOpaZxdmoGSICwDTalhGkUqsHbW8dhxKEMyzfpHbVGMk0lYVLNP/7jv7F4Pd+zr+3PG8/1IV/ec97znvO/j9/o+c37dE5mJJGlhe1+vOyBJ6j2TgSTJZCBJMhlIkjAZSJKAi3vdAYCrrroqBwYGmlr35z//OZdffnl7OzRPGPvCi32hxg3GXi/2vXv3vpGZV7ejjTmRDAYGBtizZ09T646NjVGpVNrboXnC2Cu97kbXLdS4wdjrxR4R/7tdbXiYSJJkMpAkmQwkSZgMJEmYDCRJmAwkSZgMJEmYDCRJmAwkScyRO5B1fga2PgPAltWn2Vymu2Xyodu62p6k7nDPQJJkMpAkmQwkSZgMJEmcRzKIiIsi4s8iYleZvyYiXo6I1yLi8Yi4tJRfVuYnyvKBznRdktQu57Nn8DngUM3854GHM3MVcBK4p5TfA5zMzA8BD5d6kqQ5rKFkEBErgNuA/1jmA7gZeLJU2QHcXqbXl3nK8o+V+pKkOSoy89yVIp4E/jVwBfDbwGbgpfLXPxGxEnguM6+LiAPALZl5uCx7HfhIZr4xY5vDwDBAf3//2tHR0aYCmJqaoq+vr6l156vxI6cA6F8Ex9/ubturly/uboOzWIjjDgs3bjD2erEPDQ3tzczBdrRxzpvOIuIfACcyc29EVKaL61TNBpb9dUHmCDACMDg4mM0+zm4hPgpvc81NZ9vGu3vf4OTGSlfbm81CHHdYuHGDsXc69ka+SW4C/mFErAPeD/wN4N8DSyLi4sw8DawAjpb6h4GVwOGIuBhYDLzZ9p5LktrmnOcMMvP+zFyRmQPABuCFzNwIvAjcUaptAp4u0zvLPGX5C9nIsShJUs+0cp/BfcBvRcQE8AFgeynfDnyglP8WsLW1LkqSOu28Djhn5hgwVqZ/BNxQp85fAHe2oW+SpC7xDmRJkslAkmQykCRhMpAkYTKQJGEykCRhMpAkYTKQJGEykCRhMpAkYTKQJGEykCRhMpAkYTKQJGEykCRhMpAk0UAyiIj3R8QrEfH9iDgYEb9fyr8WET+OiH3ltaaUR0R8MSImImJ/RFzf6SAkSa1p5Eln7wA3Z+ZURFwCfDcinivL/kVmPjmj/q3AqvL6CPBIeZckzVHn3DPIqqkye0l5ne0B9+uBr5f1XgKWRMSy1rsqSeqUyDzb93qpFHERsBf4EPDlzLwvIr4GfJTqnsNuYGtmvhMRu4CHMvO7Zd3dwH2ZuWfGNoeBYYD+/v61o6OjTQUwNTVFX19fU+vOV+NHTgHQvwiOv93dtlcvX9zdBmexEMcdFm7cYOz1Yh8aGtqbmYPtaKORw0Rk5rvAmohYAjwVEdcB9wP/B7gUGAHuA/4lEPU2UWebI2U9BgcHs1KpNNN/xsbGaHbd+Wrz1mcA2LL6NNvGGxrCtpncWOlqe7NZiOMOCzduMPZOx35eVxNl5lvAGHBLZh4rh4LeAf4TcEOpdhhYWbPaCuBoG/oqSeqQRq4murrsERARi4BfB344fR4gIgK4HThQVtkJ3F2uKroROJWZxzrSe0lSWzRyjGEZsKOcN3gf8ERm7oqIFyLiaqqHhfYB/7TUfxZYB0wAvwA+3f5uS5La6ZzJIDP3Ax+uU37zLPUTuLf1rkmSusU7kCVJJgNJkslAkkSD9xmovoFyvb8kzXfuGUiSTAaSJJOBJAmTgSQJk4EkCZOBJAmTgSQJk4EkCZOBJAmTgSQJk4EkCZOBJInGHnv5/oh4JSK+HxEHI+L3S/k1EfFyRLwWEY9HxKWl/LIyP1GWD3Q2BElSqxrZM3gHuDkzfxVYA9xSnm38eeDhzFwFnATuKfXvAU5m5oeAh0s9SdIc1shjLxOYKrOXlFcCNwP/uJTvAB4AHgHWl2mAJ4EvRUSU7Wie69XPdk8+dFtP2pUWimjkOzoiLgL2Ah8Cvgz8W+Cl8tc/EbESeC4zr4uIA8AtmXm4LHsd+EhmvjFjm8PAMEB/f//a0dHRpgKYmpqir6+vqXVbNX7kVE/anda/CI6/3dMudM3q5YvPmO/luPfSQo0bjL1e7ENDQ3szc7AdbTT0cJvMfBdYExFLgKeAX65XrbzHWZbVbnMEGAEYHBzMSqXSSFfeY2xsjGbXbdXmHj/cZsvq02wbXxjPJ5rcWDljvpfj3ksLNW4w9k7Hfl5XE2XmW8AYcCOwJCKmv4lWAEfL9GFgJUBZvhh4sx2dlSR1RiNXE11d9giIiEXArwOHgBeBO0q1TcDTZXpnmacsf8HzBZI0tzVyjGEZsKOcN3gf8ERm7oqIHwCjEfGvgD8Dtpf624E/jogJqnsEGzrQb0lSGzVyNdF+4MN1yn8E3FCn/C+AO9vSO0lSV3gHsiTJZCBJMhlIkjAZSJIwGUiSMBlIkjAZSJIwGUiSMBlIkjAZSJIwGUiSMBlIkjAZSJIwGUiSMBlIkmjsSWcrI+LFiDgUEQcj4nOl/IGIOBIR+8prXc0690fERES8GhGf6GQAkqTWNfKks9PAlsz8XkRcAeyNiOfLsocz89/VVo6Ia6k+3exXgL8J/PeI+DuZ+W47Oy5Jap9z7hlk5rHM/F6Z/hnV5x8vP8sq64HRzHwnM38MTFDniWiSpLnjvM4ZRMQA1UdgvlyKPhsR+yPi0YhYWsqWA39es9phzp48JEk9FpnZWMWIPuB/AA9m5rcioh94A0jgD4BlmfmZiPgy8D8z80/KetuBZzPzmzO2NwwMA/T3968dHR1tKoCpqSn6+vqaWrdV40dO9aTdaf2L4PjbPe1C16xevviM+V6Oey8t1LjB2OvFPjQ0tDczB9vRRiPnDIiIS4BvAo9l5rcAMvN4zfKvArvK7GFgZc3qK4CjM7eZmSPACMDg4GBWKpUmug9jY2M0u26rNm99piftTtuy+jTbxhsawnlvcmPljPlejnsvLdS4wdg7HXsjVxMFsB04lJlfqClfVlPtk8CBMr0T2BARl0XENcAq4JX2dVmS1G6N/Fl5E/ApYDwi9pWy3wHuiog1VA8TTQK/AZCZByPiCeAHVK9EutcriSRpbjtnMsjM7wJRZ9GzZ1nnQeDBFvolSeoi70CWJJkMJEkmA0kSJgNJEiYDSRImA0kSJgNJEiYDSRImA0kSJgNJEiYDSRImA0kSJgNJEiYDSRImA0kSJgNJEo099nJlRLwYEYci4mBEfK6UXxkRz0fEa+V9aSmPiPhiRExExP6IuL7TQUiSWtPInsFpYEtm/jJwI3BvRFwLbAV2Z+YqYHeZB7iV6nOPVwHDwCNt77Ukqa3OmQwy81hmfq9M/ww4BCwH1gM7SrUdwO1lej3w9ax6CVgSEcva3nNJUttEZjZeOWIA+A5wHfCTzFxSs+xkZi6NiF3AQ+XZyUTEbuC+zNwzY1vDVPcc6O/vXzs6OtpUAFNTU/T19TW1bqvGj5zqSbvT+hfB8bd72oWuWb188RnzvRz3XlqocYOx14t9aGhob2YOtqONixutGBF9wDeB38zMn0bErFXrlL0n42TmCDACMDg4mJVKpdGunGFsbIxm123V5q3P9KTdaVtWn2bbeMNDOK9NbqycMd/Lce+lhRo3GHunY2/oaqKIuIRqIngsM79Vio9PH/4p7ydK+WFgZc3qK4Cj7emuJKkTGrmaKIDtwKHM/ELNop3ApjK9CXi6pvzuclXRjcCpzDzWxj5LktqskWMMNwGfAsYjYl8p+x3gIeCJiLgH+AlwZ1n2LLAOmAB+AXy6rT2WJLXdOZNBORE82wmCj9Wpn8C9LfZLktRF3oEsSTIZSJJMBpIkTAaSJEwGkiRMBpIkTAaSJEwGkiRMBpIkTAaSJEwGkiRMBpIkTAaSJEwGkiRMBpIkTAaSJBp77OWjEXEiIg7UlD0QEUciYl95ratZdn9ETETEqxHxiU51XJLUPo3sGXwNuKVO+cOZuaa8ngWIiGuBDcCvlHX+Q0Rc1K7OSpI645zJIDO/A7zZ4PbWA6OZ+U5m/pjqc5BvaKF/kqQuiOoji89RKWIA2JWZ15X5B4DNwE+BPcCWzDwZEV8CXsrMPyn1tgPPZeaTdbY5DAwD9Pf3rx0dHW0qgKmpKfr6+ppat1XjR071pN1p/Yvg+Ns97ULXrF6++Iz5Xo57Ly3UuMHY68U+NDS0NzMH29HGxU2u9wjwB0CW923AZ4CoU7dutsnMEWAEYHBwMCuVSlMdGRsbo9l1W7V56zM9aXfaltWn2Tbe7BDOL5MbK2fM93Lce2mhxg3G3unYm7qaKDOPZ+a7mfmXwFf560NBh4GVNVVXAEdb66IkqdOaSgYRsaxm9pPA9JVGO4ENEXFZRFwDrAJeaa2LkqROO+cxhoj4BlABroqIw8DvAZWIWEP1ENAk8BsAmXkwIp4AfgCcBu7NzHc703VJUrucMxlk5l11irefpf6DwIOtdEqaaWDG+Zktq0937ZzN5EO3daUdqZe8A1mSZDKQJJkMJEmYDCRJmAwkSZgMJEmYDCRJmAwkSTT/Q3VzxviRUz3/wThJmu/cM5AkmQwkSSYDSRImA0kSJgNJEiYDSRImA0kSDSSDiHg0Ik5ExIGasisj4vmIeK28Ly3lERFfjIiJiNgfEdd3svOSpPZoZM/ga8AtM8q2ArszcxWwu8wD3Er1ucergGHgkfZ0U5LUSedMBpn5HeDNGcXrgR1legdwe03517PqJWBJRCxrV2clSZ0RmXnuShEDwK7MvK7Mv5WZS2qWn8zMpRGxC3goM79byncD92XmnjrbHKa690B/f//a0dHRpgI48eYpjr/d1KrzXv8ijL0LVi9f3J2GGjA1NUVfX1+vu9ETxv7e2IeGhvZm5mA72mj3bxNFnbK62SYzR4ARgMHBwaxUKk01+IePPc228Xn/E0tN2bL6tLF3weTGSlfaacTY2BjN/l+Z74y90tE2mr2a6Pj04Z/yfqKUHwZW1tRbARxtvnuSpG5oNhnsBDaV6U3A0zXld5erim4ETmXmsRb7KEnqsHPuZ0fEN4AKcFVEHAZ+D3gIeCIi7gF+AtxZqj8LrAMmgF8An+5AnyVJbXbOZJCZd82y6GN16iZwb6udkiR1l3cgS5JMBpIkk4EkCZOBJAmTgSQJk4EkCZOBJAmTgSQJk4EkCZOBJAmTgSQJk4EkifY/3Ea64AxsfaYn7U4+dFtP2tXC5J6BJMlkIEkyGUiSaPGcQURMAj8D3gVOZ+ZgRFwJPA4MAJPAP8rMk611U5LUSe3YMxjKzDWZOVjmtwK7M3MVsLvMS5LmsE4cJloP7CjTO4DbO9CGJKmNovrY4iZXjvgxcBJI4CuZORIRb2Xmkpo6JzNzaZ11h4FhgP7+/rWjo6NN9eHEm6c4/nZTq857/Ysw9gvY6uWL31M2NTVFX19fD3rTe8b+3tiHhob21hyVaUmr9xnclJlHI+KXgOcj4oeNrpiZI8AIwODgYFYqlaY68IePPc228YV5u8SW1aeN/QI2ubHynrKxsTGa/b8y3xl7paNttHSYKDOPlvcTwFPADcDxiFgGUN5PtNpJSVJnNZ0MIuLyiLhiehr4OHAA2AlsKtU2AU+32klJUme1sp/dDzwVEdPb+c+Z+V8j4k+BJyLiHuAnwJ2td1OS1ElNJ4PM/BHwq3XK/y/wsVY6JUnqLu9AliSZDCRJJgNJEiYDSRI+3Eaas+o9VGfL6tNs7vDDdnyozsLknoEkyWQgSTIZSJIwGUiSMBlIkvBqIkkz1LuKqVu8kql33DOQJJkMJEkeJpI0h5ztEFUnb7jz8JR7BpIkTAaSJDqYDCLiloh4NSImImJrp9qRJLWuI8kgIi4CvgzcClwL3BUR13aiLUlS6zp1AvkGYKI8GpOIGAXWAz/oUHuS1DTvrYDIzPZvNOIO4JbM/Cdl/lPARzLzszV1hoHhMvt3gVebbO4q4I0WujufGfvCs1DjBmOvF/vfysyr29FAp/YMok7ZGVknM0eAkZYbitiTmYOtbmc+MvaFF/tCjRuMvdOxd+oE8mFgZc38CuBoh9qSJLWoU8ngT4FVEXFNRFwKbAB2dqgtSVKLOnKYKDNPR8RngW8DFwGPZubBTrRFGw41zWPGvvAs1LjB2DuqIyeQJUnzi3cgS5JMBpKkeZ4MLpSfvIiIyYgYj4h9EbGnlF0ZEc9HxGvlfWkpj4j4Yol5f0RcX7OdTaX+axGxqaZ8bdn+RFm33qW/XRERj0bEiYg4UFPW8Vhna6ObZon9gYg4UsZ+X0Ssq1l2f4nj1Yj4RE153c99uWDj5RLj4+XiDSLisjI/UZYPdCfiv+rXyoh4MSIORcTBiPhcKb+gx/0scc/NMc/MefmiemL6deCDwKXA94Fre92vJmOZBK6aUfZvgK1leivw+TK9DniO6r0cNwIvl/IrgR+V96VlemlZ9grw0bLOc8CtPYz114DrgQPdjHW2NuZA7A8Av12n7rXlM30ZcE35rF90ts898ASwoUz/EfDPyvQ/B/6oTG8AHu9y3MuA68v0FcD/KvFd0ON+lrjn5Jj35AuhTf/QHwW+XTN/P3B/r/vVZCyTvDcZvAosq/lQvVqmvwLcNbMecBfwlZryr5SyZcAPa8rPqNejeAc48wux47HO1sYciH22L4YzPs9Ur8z76Gyf+/Il+AZwcSn/q3rT65bpi0u96OH4Pw38/YU07jPinpNjPp8PEy0H/rxm/nApm48S+G8RsTeqP9MB0J+ZxwDK+y+V8tniPlv54Trlc0k3Yp2tjbngs+VwyKM1hzHON/YPAG9l5ukZ5Wdsqyw/Vep3XTlc8WHgZRbQuM+IG+bgmM/nZHDOn7yYR27KzOup/srrvRHxa2epO1vc51s+HyyEWB8B/jawBjgGbCvl7Yx9Tvy7REQf8E3gNzPzp2erWqds3o57nbjn5JjP52RwwfzkRWYeLe8ngKeo/urr8YhYBlDeT5Tqs8V9tvIVdcrnkm7EOlsbPZWZxzPz3cz8S+CrVMcezj/2N4AlEXHxjPIztlWWLwbebH80s4uIS6h+IT6Wmd8qxRf8uNeLe66O+XxOBhfET15ExOURccX0NPBx4ADVWKavlthE9XgjpfzucsXFjcCpsvv7beDjEbG07HZ+nOrxw2PAzyLixnKFxd0125oruhHrbG301PQXVfFJqmMP1f5uKFeFXAOsonqStO7nPqsHh18E7ijrz/x3nI79DuCFUr8rylhsBw5l5hdqFl3Q4z5b3HN2zHt1MqVNJ2TWUT1D/zrwu73uT5MxfJDq1QHfBw5Ox0H1+N5u4LXyfmUpD6oPDnodGAcGa7b1GWCivD5dUz5YPnCvA1+itycPv0F11/j/Uf3r5Z5uxDpbG3Mg9j8use0v/4GX1dT/3RLHq9RcATbb5758ll4p/yb/BbislL+/zE+U5R/sctx/j+ohiv3AvvJad6GP+1ninpNj7s9RSJLm9WEiSVKbmAwkSSYDSZLJQJKEyUCShMlAkoTJQJIE/H9aZwy+ujQ2gAAAAABJRU5ErkJggg==\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "ToyotaCorolla['KM'].hist()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -290,7 +487,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 58,
    "metadata": {},
    "outputs": [
     {
@@ -301,7 +498,7 @@
        "      dtype='object')"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 58,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -312,17 +509,33 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 59,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "ename": "KeyError",
+     "evalue": "\"['FuelType'] not found in axis\"",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-59-ebf5eddf25b8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mX\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mToyotaCorolla\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'Age'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'KM'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'HP'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'MetColor'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'Automatic'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'CC'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'FuelType'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;31m# independent variables\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;31m# X = ToyotaCorolla.drop('FuelType', axis=1)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/frame.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, axis, index, columns, level, inplace, errors)\u001b[0m\n\u001b[1;32m   3938\u001b[0m                                            \u001b[0mindex\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mindex\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcolumns\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mcolumns\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3939\u001b[0m                                            \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0minplace\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0minplace\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3940\u001b[0;31m                                            errors=errors)\n\u001b[0m\u001b[1;32m   3941\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3942\u001b[0m     @rewrite_axis_style_signature('mapper', [('copy', True),\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/generic.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, axis, index, columns, level, inplace, errors)\u001b[0m\n\u001b[1;32m   3778\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlabels\u001b[0m \u001b[0;32min\u001b[0m \u001b[0maxes\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mitems\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3779\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mlabels\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3780\u001b[0;31m                 \u001b[0mobj\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mobj\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_drop_axis\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   3781\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3782\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0minplace\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/generic.py\u001b[0m in \u001b[0;36m_drop_axis\u001b[0;34m(self, labels, axis, level, errors)\u001b[0m\n\u001b[1;32m   3810\u001b[0m                 \u001b[0mnew_axis\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3811\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3812\u001b[0;31m                 \u001b[0mnew_axis\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   3813\u001b[0m             \u001b[0mresult\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mreindex\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m**\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0maxis_name\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0mnew_axis\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3814\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/indexes/base.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, errors)\u001b[0m\n\u001b[1;32m   4963\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0merrors\u001b[0m \u001b[0;34m!=\u001b[0m \u001b[0;34m'ignore'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   4964\u001b[0m                 raise KeyError(\n\u001b[0;32m-> 4965\u001b[0;31m                     '{} not found in axis'.format(labels[mask]))\n\u001b[0m\u001b[1;32m   4966\u001b[0m             \u001b[0mindexer\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mindexer\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m~\u001b[0m\u001b[0mmask\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   4967\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdelete\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mindexer\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mKeyError\u001b[0m: \"['FuelType'] not found in axis\""
+     ]
+    }
+   ],
    "source": [
-    "X = ToyotaCorolla.drop('Price', axis=1) # independent variables\n",
-    "X = ToyotaCorolla.drop('FuelType', axis=1)"
+    "X = ToyotaCorolla[['Age','KM','HP','MetColor','Automatic','CC']]\n",
+    "y = ToyotaCorolla['Price']"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 60,
    "metadata": {},
    "outputs": [
     {
@@ -431,7 +644,7 @@
        "4  13750   30  38500  90         0          0  2000      3    1170"
       ]
      },
-     "execution_count": 12,
+     "execution_count": 60,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -442,7 +655,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 61,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -451,7 +664,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 62,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -461,7 +674,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 63,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -470,7 +683,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 64,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -493,7 +706,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 65,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -504,7 +717,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 66,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -513,7 +726,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 67,
    "metadata": {},
    "outputs": [
     {
@@ -542,6 +755,60 @@
     "    error = np.sqrt(mean_squared_error(y_test, pred)) # calculate rmse\n",
     "    rmse_val.append(error) # store rmse values\n",
     "    print('RMSE value for k = ' , K , 'is: ', error)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Compare with LR model"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "lm_train_data = pd.merge(X_train, y_train, how = 'left', left_index = True, right_index = True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "PatsyError",
+     "evalue": "Error evaluating factor: NameError: name 'Price' is not defined\n    Price ~ Age+KM+HP+MetColor+Automatic+CC\n    ^^^^^",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36mcall_and_wrap_exc\u001b[0;34m(msg, origin, f, *args, **kwargs)\u001b[0m\n\u001b[1;32m     35\u001b[0m     \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 36\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     37\u001b[0m     \u001b[0;32mexcept\u001b[0m \u001b[0mException\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0me\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36meval\u001b[0;34m(self, expr, source_name, inner_namespace)\u001b[0m\n\u001b[1;32m    165\u001b[0m         return eval(code, {}, VarLookupDict([inner_namespace]\n\u001b[0;32m--> 166\u001b[0;31m                                             + self._namespaces))\n\u001b[0m\u001b[1;32m    167\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m<string>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'Price' is not defined",
+      "\nThe above exception was the direct cause of the following exception:\n",
+      "\u001b[0;31mPatsyError\u001b[0m                                Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-70-6a801d61119c>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mlm2\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0msm\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mols\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mformula\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m\"Price ~ Age+KM+HP+MetColor+Automatic+CC\"\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlm_train_data\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/statsmodels/base/model.py\u001b[0m in \u001b[0;36mfrom_formula\u001b[0;34m(cls, formula, data, subset, drop_cols, *args, **kwargs)\u001b[0m\n\u001b[1;32m    157\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    158\u001b[0m         tmp = handle_formula_data(data, None, formula, depth=eval_env,\n\u001b[0;32m--> 159\u001b[0;31m                                   missing=missing)\n\u001b[0m\u001b[1;32m    160\u001b[0m         \u001b[0;34m(\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mendog\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mexog\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmissing_idx\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdesign_info\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtmp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    161\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/statsmodels/formula/formulatools.py\u001b[0m in \u001b[0;36mhandle_formula_data\u001b[0;34m(Y, X, formula, depth, missing)\u001b[0m\n\u001b[1;32m     63\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mdata_util\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_is_using_pandas\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mY\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     64\u001b[0m             result = dmatrices(formula, Y, depth, return_type='dataframe',\n\u001b[0;32m---> 65\u001b[0;31m                                NA_action=na_action)\n\u001b[0m\u001b[1;32m     66\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     67\u001b[0m             result = dmatrices(formula, Y, depth, return_type='dataframe',\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36mdmatrices\u001b[0;34m(formula_like, data, eval_env, NA_action, return_type)\u001b[0m\n\u001b[1;32m    308\u001b[0m     \u001b[0meval_env\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mEvalEnvironment\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcapture\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0meval_env\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mreference\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    309\u001b[0m     (lhs, rhs) = _do_highlevel_design(formula_like, data, eval_env,\n\u001b[0;32m--> 310\u001b[0;31m                                       NA_action, return_type)\n\u001b[0m\u001b[1;32m    311\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mlhs\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    312\u001b[0m         \u001b[0;32mraise\u001b[0m \u001b[0mPatsyError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"model is missing required outcome variables\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36m_do_highlevel_design\u001b[0;34m(formula_like, data, eval_env, NA_action, return_type)\u001b[0m\n\u001b[1;32m    163\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0miter\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mdata\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    164\u001b[0m     design_infos = _try_incr_builders(formula_like, data_iter_maker, eval_env,\n\u001b[0;32m--> 165\u001b[0;31m                                       NA_action)\n\u001b[0m\u001b[1;32m    166\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mdesign_infos\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    167\u001b[0m         return build_design_matrices(design_infos, data,\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/highlevel.py\u001b[0m in \u001b[0;36m_try_incr_builders\u001b[0;34m(formula_like, data_iter_maker, eval_env, NA_action)\u001b[0m\n\u001b[1;32m     68\u001b[0m                                       \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     69\u001b[0m                                       \u001b[0meval_env\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 70\u001b[0;31m                                       NA_action)\n\u001b[0m\u001b[1;32m     71\u001b[0m     \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     72\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/build.py\u001b[0m in \u001b[0;36mdesign_matrix_builders\u001b[0;34m(termlists, data_iter_maker, eval_env, NA_action)\u001b[0m\n\u001b[1;32m    694\u001b[0m                                                    \u001b[0mfactor_states\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    695\u001b[0m                                                    \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 696\u001b[0;31m                                                    NA_action)\n\u001b[0m\u001b[1;32m    697\u001b[0m     \u001b[0;31m# Now we need the factor infos, which encapsulate the knowledge of\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    698\u001b[0m     \u001b[0;31m# how to turn any given factor into a chunk of data:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/build.py\u001b[0m in \u001b[0;36m_examine_factor_types\u001b[0;34m(factors, factor_states, data_iter_maker, NA_action)\u001b[0m\n\u001b[1;32m    441\u001b[0m     \u001b[0;32mfor\u001b[0m \u001b[0mdata\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mdata_iter_maker\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    442\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mlist\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mexamine_needed\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 443\u001b[0;31m             \u001b[0mvalue\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mfactor\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0meval\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfactor_states\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mfactor\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    444\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mcat_sniffers\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0mguess_categorical\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mvalue\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    445\u001b[0m                 \u001b[0;32mif\u001b[0m \u001b[0mfactor\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mcat_sniffers\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36meval\u001b[0;34m(self, memorize_state, data)\u001b[0m\n\u001b[1;32m    564\u001b[0m         return self._eval(memorize_state[\"eval_code\"],\n\u001b[1;32m    565\u001b[0m                           \u001b[0mmemorize_state\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 566\u001b[0;31m                           data)\n\u001b[0m\u001b[1;32m    567\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    568\u001b[0m     \u001b[0m__getstate__\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mno_pickling\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/eval.py\u001b[0m in \u001b[0;36m_eval\u001b[0;34m(self, code, memorize_state, data)\u001b[0m\n\u001b[1;32m    549\u001b[0m                                  \u001b[0mmemorize_state\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"eval_env\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0meval\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    550\u001b[0m                                  \u001b[0mcode\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 551\u001b[0;31m                                  inner_namespace=inner_namespace)\n\u001b[0m\u001b[1;32m    552\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    553\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mmemorize_chunk\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstate\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwhich_pass\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36mcall_and_wrap_exc\u001b[0;34m(msg, origin, f, *args, **kwargs)\u001b[0m\n\u001b[1;32m     41\u001b[0m                                  origin)\n\u001b[1;32m     42\u001b[0m             \u001b[0;31m# Use 'exec' to hide this syntax from the Python 2 parser:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 43\u001b[0;31m             \u001b[0mexec\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"raise new_exc from e\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     44\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     45\u001b[0m             \u001b[0;31m# In python 2, we just let the original exception escape -- better\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/patsy/compat.py\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;31mPatsyError\u001b[0m: Error evaluating factor: NameError: name 'Price' is not defined\n    Price ~ Age+KM+HP+MetColor+Automatic+CC\n    ^^^^^"
+     ]
+    }
+   ],
+   "source": [
+    "lm2 = sm.ols(formula=\"Price ~ Age+KM+HP+MetColor+Automatic+CC\", data=lm_train_data).fit()"
    ]
   },
   {
