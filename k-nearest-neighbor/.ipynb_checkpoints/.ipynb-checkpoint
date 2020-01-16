@@ -478,7 +478,63 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 57,
+   "execution_count": 81,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "                            OLS Regression Results                            \n",
+      "==============================================================================\n",
+      "Dep. Variable:                  Price   R-squared:                       0.813\n",
+      "Model:                            OLS   Adj. R-squared:                  0.812\n",
+      "Method:                 Least Squares   F-statistic:                     1033.\n",
+      "Date:                Thu, 16 Jan 2020   Prob (F-statistic):               0.00\n",
+      "Time:                        15:41:02   Log-Likelihood:                -12604.\n",
+      "No. Observations:                1436   AIC:                         2.522e+04\n",
+      "Df Residuals:                    1429   BIC:                         2.526e+04\n",
+      "Df Model:                           6                                         \n",
+      "Covariance Type:            nonrobust                                         \n",
+      "==============================================================================\n",
+      "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
+      "------------------------------------------------------------------------------\n",
+      "Intercept   6371.0685   2654.002      2.401      0.016    1164.910    1.16e+04\n",
+      "Age         -155.0181      2.645    -58.599      0.000    -160.207    -149.829\n",
+      "logKM       -334.8416     45.814     -7.309      0.000    -424.712    -244.972\n",
+      "HP            40.2761      2.845     14.158      0.000      34.696      45.857\n",
+      "MetColor      47.0937     89.263      0.528      0.598    -128.008     222.195\n",
+      "Automatic    900.7045    181.669      4.958      0.000     544.338    1257.071\n",
+      "logCC       1702.5829    366.201      4.649      0.000     984.233    2420.932\n",
+      "==============================================================================\n",
+      "Omnibus:                      229.815   Durbin-Watson:                   1.374\n",
+      "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1405.455\n",
+      "Skew:                           0.589   Prob(JB):                    6.45e-306\n",
+      "Kurtosis:                       7.702   Cond. No.                     7.58e+03\n",
+      "==============================================================================\n",
+      "\n",
+      "Warnings:\n",
+      "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+      "[2] The condition number is large, 7.58e+03. This might indicate that there are\n",
+      "strong multicollinearity or other numerical problems.\n"
+     ]
+    }
+   ],
+   "source": [
+    "result = sm.ols(formula=\"Price ~ Age+logKM+HP+MetColor+Automatic+logCC\", data=ToyotaCorolla).fit()\n",
+    "print(result.summary())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### KNN"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -487,18 +543,18 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 58,
+   "execution_count": 83,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
        "Index(['Price', 'Age', 'KM', 'FuelType', 'HP', 'MetColor', 'Automatic', 'CC',\n",
-       "       'Doors', 'Weight'],\n",
+       "       'Doors', 'Weight', 'logKM', 'logCC'],\n",
        "      dtype='object')"
       ]
      },
-     "execution_count": 58,
+     "execution_count": 83,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -509,25 +565,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 59,
+   "execution_count": 84,
    "metadata": {},
-   "outputs": [
-    {
-     "ename": "KeyError",
-     "evalue": "\"['FuelType'] not found in axis\"",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[0;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
-      "\u001b[0;32m<ipython-input-59-ebf5eddf25b8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mX\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mToyotaCorolla\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'Age'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'KM'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'HP'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'MetColor'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'Automatic'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'CC'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'FuelType'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;31m# independent variables\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;31m# X = ToyotaCorolla.drop('FuelType', axis=1)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/frame.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, axis, index, columns, level, inplace, errors)\u001b[0m\n\u001b[1;32m   3938\u001b[0m                                            \u001b[0mindex\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mindex\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcolumns\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mcolumns\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3939\u001b[0m                                            \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0minplace\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0minplace\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3940\u001b[0;31m                                            errors=errors)\n\u001b[0m\u001b[1;32m   3941\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3942\u001b[0m     @rewrite_axis_style_signature('mapper', [('copy', True),\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/generic.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, axis, index, columns, level, inplace, errors)\u001b[0m\n\u001b[1;32m   3778\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlabels\u001b[0m \u001b[0;32min\u001b[0m \u001b[0maxes\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mitems\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3779\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mlabels\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3780\u001b[0;31m                 \u001b[0mobj\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mobj\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_drop_axis\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   3781\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3782\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0minplace\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/generic.py\u001b[0m in \u001b[0;36m_drop_axis\u001b[0;34m(self, labels, axis, level, errors)\u001b[0m\n\u001b[1;32m   3810\u001b[0m                 \u001b[0mnew_axis\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mlevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mlevel\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3811\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3812\u001b[0;31m                 \u001b[0mnew_axis\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdrop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlabels\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   3813\u001b[0m             \u001b[0mresult\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mreindex\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m**\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0maxis_name\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0mnew_axis\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3814\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pandas/core/indexes/base.py\u001b[0m in \u001b[0;36mdrop\u001b[0;34m(self, labels, errors)\u001b[0m\n\u001b[1;32m   4963\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0merrors\u001b[0m \u001b[0;34m!=\u001b[0m \u001b[0;34m'ignore'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   4964\u001b[0m                 raise KeyError(\n\u001b[0;32m-> 4965\u001b[0;31m                     '{} not found in axis'.format(labels[mask]))\n\u001b[0m\u001b[1;32m   4966\u001b[0m             \u001b[0mindexer\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mindexer\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m~\u001b[0m\u001b[0mmask\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   4967\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdelete\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mindexer\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-      "\u001b[0;31mKeyError\u001b[0m: \"['FuelType'] not found in axis\""
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "X = ToyotaCorolla[['Age','KM','HP','MetColor','Automatic','CC']]\n",
     "y = ToyotaCorolla['Price']"
@@ -535,7 +575,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 60,
+   "execution_count": 85,
    "metadata": {},
    "outputs": [
     {
@@ -559,92 +599,74 @@
        "  <thead>\n",
        "    <tr style=\"text-align: right;\">\n",
        "      <th></th>\n",
-       "      <th>Price</th>\n",
        "      <th>Age</th>\n",
        "      <th>KM</th>\n",
        "      <th>HP</th>\n",
        "      <th>MetColor</th>\n",
        "      <th>Automatic</th>\n",
        "      <th>CC</th>\n",
-       "      <th>Doors</th>\n",
-       "      <th>Weight</th>\n",
        "    </tr>\n",
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
        "      <th>0</th>\n",
-       "      <td>13500</td>\n",
        "      <td>23</td>\n",
        "      <td>46986</td>\n",
        "      <td>90</td>\n",
        "      <td>1</td>\n",
        "      <td>0</td>\n",
        "      <td>2000</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1165</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>1</th>\n",
-       "      <td>13750</td>\n",
        "      <td>23</td>\n",
        "      <td>72937</td>\n",
        "      <td>90</td>\n",
        "      <td>1</td>\n",
        "      <td>0</td>\n",
        "      <td>2000</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1165</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>2</th>\n",
-       "      <td>13950</td>\n",
        "      <td>24</td>\n",
        "      <td>41711</td>\n",
        "      <td>90</td>\n",
        "      <td>1</td>\n",
        "      <td>0</td>\n",
        "      <td>2000</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1165</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>3</th>\n",
-       "      <td>14950</td>\n",
        "      <td>26</td>\n",
        "      <td>48000</td>\n",
        "      <td>90</td>\n",
        "      <td>0</td>\n",
        "      <td>0</td>\n",
        "      <td>2000</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1165</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>4</th>\n",
-       "      <td>13750</td>\n",
        "      <td>30</td>\n",
        "      <td>38500</td>\n",
        "      <td>90</td>\n",
        "      <td>0</td>\n",
        "      <td>0</td>\n",
        "      <td>2000</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1170</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
        "</div>"
       ],
       "text/plain": [
-       "   Price  Age     KM  HP  MetColor  Automatic    CC  Doors  Weight\n",
-       "0  13500   23  46986  90         1          0  2000      3    1165\n",
-       "1  13750   23  72937  90         1          0  2000      3    1165\n",
-       "2  13950   24  41711  90         1          0  2000      3    1165\n",
-       "3  14950   26  48000  90         0          0  2000      3    1165\n",
-       "4  13750   30  38500  90         0          0  2000      3    1170"
+       "   Age     KM  HP  MetColor  Automatic    CC\n",
+       "0   23  46986  90         1          0  2000\n",
+       "1   23  72937  90         1          0  2000\n",
+       "2   24  41711  90         1          0  2000\n",
+       "3   26  48000  90         0          0  2000\n",
+       "4   30  38500  90         0          0  2000"
       ]
      },
-     "execution_count": 60,
+     "execution_count": 85,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -655,11 +677,27 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 61,
+   "execution_count": 87,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    13500\n",
+       "1    13750\n",
+       "2    13950\n",
+       "3    14950\n",
+       "4    13750\n",
+       "Name: Price, dtype: int64"
+      ]
+     },
+     "execution_count": 87,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
-    "y = ToyotaCorolla.Price # dependent variable"
+    "y.head() # dep var"
    ]
   },
   {
