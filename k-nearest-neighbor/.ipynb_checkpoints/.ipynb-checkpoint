@@ -470,6 +470,19 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import StandardScaler\n",
+    "scaler = StandardScaler()\n",
+    "scaler.fit(X_train)\n",
+    "X_train_knn = scaler.transform(X_train)\n",
+    "X_test_knn = scaler.transform(X_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": null,
    "metadata": {},
    "outputs": [],
